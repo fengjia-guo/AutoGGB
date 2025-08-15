@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NATURAL_LANGUAGE_TO_LEAN } from "../prompts/naturalToLean";
 import TextEditor from "./TextEditor";
 
@@ -25,7 +25,7 @@ export function ApiKeyInput({ onKeySet }: { onKeySet: (key: string) => void }) {
   );
 }
 
-export async function callLLM(apiUrl: string, model: string, apiKey: string, systemPrompt: string, prompt: string) {
+export async function callLLM(apiUrl: string, model: string, apiKey: string, systemPrompt: string, prompt: string, temperature: number = 1.0) {
   // OpenAI API
   const res = await fetch(apiUrl, {
     method: "POST",
@@ -35,6 +35,7 @@ export async function callLLM(apiUrl: string, model: string, apiKey: string, sys
     },
     body: JSON.stringify({
       model: model,
+      temperature: temperature, 
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: prompt },
@@ -59,18 +60,37 @@ export default function APICaller() {
   const [systemPrompt, setSystemPrompt] = useState(NATURAL_LANGUAGE_TO_LEAN);
   const [showSystemPrompt, setShowSystemPrompt] = useState(false);
   const [showResult, setShowResult] = useState(false);
-  
+  const [temperature, setTemperature] = useState<number>(0.0);
+  const [temperatureStr, setTemperatureStr] = useState<string>("0.0");
+  const [isTemperatureValid, setIsTemperatureValid] = useState(true);
 
   const handleCall = async () => {
     try {
       if (userPrompt == "") return;
-      const output = await callLLM(apiUrl, model, apiKey, systemPrompt, userPrompt);
+      const output = await callLLM(apiUrl, model, apiKey, systemPrompt, userPrompt, temperature);
       alert("Finish!");
       setResult(output || "");
     } catch (err) {
       alert((err as Error).message);
     }
   };
+
+  const validateTemperatureStr = () => {
+    try {
+      const newTemperature: number = parseFloat(temperatureStr);
+      if (Number.isNaN(newTemperature)) {
+        throw new Error();
+      }
+      setTemperature(newTemperature);
+      setIsTemperatureValid(true);
+    } catch (error) {
+      setIsTemperatureValid(false);
+    }
+  }
+
+  useEffect(() => {
+    validateTemperatureStr();
+  }, [temperatureStr])
 
   const systemPromptEditor = <TextEditor text={systemPrompt} setText={setSystemPrompt} onClose={() => {setShowSystemPrompt(false)}}/>
   const resultEditor = <TextEditor text={result} setText={setResult} onClose={() => {setShowResult(false)}}/>
@@ -106,6 +126,11 @@ export default function APICaller() {
               Edit Result
             </button>
           </div>
+        </div>
+        <div className="flex justify-between items-center gap-x-3"> 
+          Temperature: { temperature }
+          { !isTemperatureValid && <p className="text-sm text-red-600"> Invalid! </p> }
+          <input type="text" value={temperatureStr} onChange={(e) => (setTemperatureStr(e.target.value))} className="bg-gray-50 px-2 py-1"/>
         </div>
       </div>
       {showResult && resultEditor}
