@@ -30,5 +30,5 @@ export default function GeoGebraBoard() {
     return () => window.removeEventListener("resize", loadGGB);
   }, []);
 
-  return <div ref={containerRef} id="ggb-element" className="w-full min-h-[80vh] max-h-[100vh] h-full" />;
+  return <div ref={containerRef} id="ggb-element" className="w-full h-full" />;
 }
