@@ -3,6 +3,7 @@ import GeoGebraBoard from "./components/GeoGebraBoard";
 import CommandUploader from "./components/CommandUploader";
 import Toolbar from "./components/Toolbar";
 import APICaller from "./components/APICaller";
+import { WebSocketClient } from "./components/WebSocketClient";
 
 export default function App() {
   const [commands, setCommands] = useState<string[]>([]);
@@ -21,6 +22,7 @@ export default function App() {
       <div className="flex items-center gap-3"> 
         <CommandUploader onCommandsLoaded={setCommands} />
         <Toolbar commands={commands} />
+        <WebSocketClient />
       </div>
       <GeoGebraBoard />
     </div>
