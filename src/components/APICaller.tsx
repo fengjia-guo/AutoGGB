@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NATURAL_LANGUAGE_TO_LEAN } from "../prompts/naturalToLean";
 import TextEditor from "./TextEditor";
 
@@ -51,7 +51,11 @@ export async function callLLM(apiUrl: string, model: string, apiKey: string, sys
   return data.choices[0].message.content;
 }
 
-export default function APICaller() {
+export interface APICallerProps {
+  onResultRun?: (result: string) => void;
+};
+
+export const APICaller: React.FC<APICallerProps> = ({onResultRun = () => {}}) => {
   const [apiKey, setApiKey] = useState("");
   const [apiUrl, setApiUrl] = useState("https://api.openai.com/v1/chat/completions");
   const [model, setModel] = useState("gpt-4o-mini");
@@ -125,6 +129,9 @@ export default function APICaller() {
             <button onClick={() => setShowResult(true)} className="bg-gray-50 hover:bg-gray-100 border border-blue-500 px-2 py-1 rounded-lg w-fit">
               Edit Result
             </button>
+            <button onClick={() => onResultRun(result)} className="bg-blue-500 hover:bg-blue-600 text-white border border-transparent px-2 py-1 rounded-lg w-fit">
+              Run
+            </button>
           </div>
         </div>
         <div className="flex justify-between items-center gap-x-3"> 
@@ -139,3 +146,4 @@ export default function APICaller() {
   );
 }
   
+export default APICaller;
