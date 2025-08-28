@@ -10,7 +10,9 @@ export const connectToWebSocket = (url: string = DEFAULT_WEBSOCKET_URL): WebSock
   const ws = new WebSocket(url);
 
   ws.onopen = () => {
-    console.log(`Successfully connected to WebSocket server ${url}.`);
+    const info = `Successfully connected to WebSocket server ${url}.`
+    console.log(info);
+    alert(info);
     ws.send(JSON.stringify({ type: 'status', message: 'Client connected and ready.' }));
   };
 
@@ -49,17 +51,23 @@ export const connectToWebSocket = (url: string = DEFAULT_WEBSOCKET_URL): WebSock
         }));
 			}
     } catch (error: any) {
+      const info = `Error:${error.message}`
       console.error('An error occurred while processing WebSocket message:', error);
+      alert(info);
       ws.send(JSON.stringify({ type: 'error', error: error.message }));
     }
   };
 
   ws.onclose = () => {
-    console.log('Connection to local WebSocket server closed.');
+    const info = 'Connection to local WebSocket server closed.'
+    console.log(info);
+    alert(info);
   };
 
   ws.onerror = (error: Event) => {
+    const info = `WebSocket error: ${error}`;
     console.error('WebSocket error:', error);
+    alert(info);
   };
 
   return ws;

@@ -16,7 +16,9 @@ export const WebSocketClient: React.FC = () => {
 
     return () => {
       if (wsRef.current) {
-        console.log(`Closing connection to ${wsRef.current.url}`);
+        const info = `Closing connection to ${wsRef.current.url}`
+        console.log(info);
+        alert(info);
         wsRef.current.close();
       }
     };
