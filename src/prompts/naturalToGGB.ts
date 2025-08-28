@@ -1,5 +1,5 @@
 // Ref: https://geogebra.github.io/docs/manual/en/commands/
-export const NATURAL_LANGUAGE_TO_LEAN = `
+export const NATURAL_LANGUAGE_TO_GGB = `
 You are a GeoGebra script generator.
 
 The user will provide a geometry problem in natural language.  

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { NATURAL_LANGUAGE_TO_LEAN } from "../prompts/naturalToLean";
+import { NATURAL_LANGUAGE_TO_GGB } from "../prompts/naturalToGGB";
 import TextEditor from "./TextEditor";
 
 export function ApiKeyInput({ onKeySet }: { onKeySet: (key: string) => void }) {
@@ -61,7 +61,7 @@ export const APICaller: React.FC<APICallerProps> = ({onResultRun = () => {}}) =>
   const [model, setModel] = useState("gpt-4o-mini");
   const [result, setResult] = useState("");
   const [userPrompt, setUserPrompt] = useState("");
-  const [systemPrompt, setSystemPrompt] = useState(NATURAL_LANGUAGE_TO_LEAN);
+  const [systemPrompt, setSystemPrompt] = useState(NATURAL_LANGUAGE_TO_GGB);
   const [showSystemPrompt, setShowSystemPrompt] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [temperature, setTemperature] = useState<number>(0.0);
