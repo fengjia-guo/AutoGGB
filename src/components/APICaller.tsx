@@ -13,7 +13,7 @@ export function ApiKeyInput({ onKeySet }: { onKeySet: (key: string) => void }) {
         value={key}
         placeholder="Input your API Key here"
         onChange={(e) => setKey(e.target.value)}
-        className="bg-gray-50 rounded-lg px-2 py-1 w-3/4"
+        className="bg-gray-50 rounded-lg px-2 py-1 w-full"
       />
       <button
         className="bg-blue-500 text-white hover:bg-blue-600 px-2 py-1 rounded-lg"
@@ -100,13 +100,13 @@ export const APICaller: React.FC<APICallerProps> = ({onResultRun = () => {}}) =>
   const resultEditor = <TextEditor text={result} setText={setResult} onClose={() => {setShowResult(false)}}/>
 
   const APIConfig = <div className="flex justify-between items-center gap-x-2">
-    <div className="flex items-center justify-between w-full">
-      API url
-      <input type="text" value={apiUrl} onChange={(e) => setApiUrl(e.target.value)} placeholder="API url" className="bg-gray-50 px-2 py-1 w-2/3"/>
+    <div className="flex items-center justify-between w-full gap-x-2">
+      <span className="whitespace-nowrap"> API url </span>
+      <input type="text" value={apiUrl} onChange={(e) => setApiUrl(e.target.value)} placeholder="API url" className="bg-gray-50 px-2 py-1 w-full rounded-lg"/>
     </div>
-    <div className="flex items-center justify-between w-full">
-      Name of model
-      <input type="text" value={model} onChange={(e) => setModel(e.target.value)} placeholder="name of model" className="bg-gray-50 px-2 py-1 w-2/3"/>
+    <div className="flex items-center justify-between w-full gap-x-2">
+      <span className="whitespace-nowrap"> Name of model </span>
+      <input type="text" value={model} onChange={(e) => setModel(e.target.value)} placeholder="name of model" className="bg-gray-50 px-2 py-1 w-full rounded-lg"/>
     </div>
   </div>
 
@@ -118,26 +118,26 @@ export const APICaller: React.FC<APICallerProps> = ({onResultRun = () => {}}) =>
       </div>
       <div className="flex flex-col w-1/2 p-2 space-y-4"> 
         <div className="flex justify-between items-center gap-x-3">
-          <input type="text" value={userPrompt} onChange={(e) => setUserPrompt(e.target.value)} placeholder="Input description here" className="bg-gray-50 px-2 py-1 w-1/2"/>
+          <input type="text" value={userPrompt} onChange={(e) => setUserPrompt(e.target.value)} placeholder="Input description here" className="bg-gray-50 px-2 py-1 w-full rounded-lg"/>
           <div className="flex justify-between items-center gap-x-3">
-            <button onClick={handleCall} className="bg-blue-500 hover:bg-blue-600 text-white border border-transparent px-2 py-1 rounded-lg w-fit">
+            <button onClick={handleCall} className="bg-blue-500 hover:bg-blue-600 text-white border border-transparent px-2 py-1 rounded-lg w-fit whitespace-nowrap">
               Generate
             </button>
-            <button onClick={() => setShowSystemPrompt(true)} className="bg-gray-50 hover:bg-gray-100 border border-blue-500 px-2 py-1 rounded-lg w-fit">
+            <button onClick={() => setShowSystemPrompt(true)} className="bg-gray-50 hover:bg-gray-100 border border-blue-500 px-2 py-1 rounded-lg w-fit whitespace-nowrap">
               Edit Prompt
             </button>
-            <button onClick={() => setShowResult(true)} className="bg-gray-50 hover:bg-gray-100 border border-blue-500 px-2 py-1 rounded-lg w-fit">
+            <button onClick={() => setShowResult(true)} className="bg-gray-50 hover:bg-gray-100 border border-blue-500 px-2 py-1 rounded-lg w-fit whitespace-nowrap">
               Edit Result
             </button>
-            <button onClick={() => onResultRun(result)} className="bg-blue-500 hover:bg-blue-600 text-white border border-transparent px-2 py-1 rounded-lg w-fit">
+            <button onClick={() => onResultRun(result)} className="bg-blue-500 hover:bg-blue-600 text-white border border-transparent px-2 py-1 rounded-lg w-fit whitespace-nowrap">
               Run
             </button>
           </div>
         </div>
-        <div className="flex justify-between items-center gap-x-3"> 
+        <div className="flex justify-between items-center gap-x-3 whitespace-nowrap"> 
           Temperature: { temperature }
           { !isTemperatureValid && <p className="text-sm text-red-600"> Invalid! </p> }
-          <input type="text" value={temperatureStr} onChange={(e) => (setTemperatureStr(e.target.value))} className="bg-gray-50 px-2 py-1"/>
+          <input type="text" value={temperatureStr} onChange={(e) => (setTemperatureStr(e.target.value))} className="bg-gray-50 px-2 py-1 rounded-lg"/>
         </div>
       </div>
       {showResult && resultEditor}
